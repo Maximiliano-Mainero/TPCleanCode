@@ -12,14 +12,11 @@ namespace CBTeam.Application.Handlers
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        private readonly IValidator<GetUserListRequest> _validator;
         public GetUserListHandler(
             IUserRepository userRepository, 
-            IValidator<GetUserListRequest> validator,
             IMapper mapper)
         {
             _userRepository = userRepository;
-            _validator = validator;
             _mapper = mapper;
         }
 
@@ -27,18 +24,8 @@ namespace CBTeam.Application.Handlers
             GetUserListRequest request, CancellationToken cancellationToken)
         {
             var response = new GetUserListResponse();
-            var result = _validator.Validate(request);
 
-            if (!result.IsValid)
-            {
-                throw new Exception("La solicitud no es válida: " +result.Errors[0].ErrorMessage);
-            }
-
-            var userList = _userRepository.GetList(request.name);               
-            if (userList.Count==0)
-            {
-                throw new Exception("No se encontraron resultados coincidentes");
-            }
+            var userList = _userRepository.GetList();                       
             response.UserList = userList
                 .Select(MapTo)
                 .ToList();

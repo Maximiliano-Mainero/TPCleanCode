@@ -16,7 +16,6 @@ namespace CBTeam.Test
     {
         private readonly Mock<IMapper> _mapper;
         private readonly Mock<IUserRepository> _userRepository;
-        private readonly Mock<IValidator<GetUserListRequest>> _validator;
 
         private GetUserListHandler handler;
 
@@ -52,12 +51,10 @@ namespace CBTeam.Test
             };
 
             var result = new ValidationResult();
-            _validator = new Mock<IValidator<GetUserListRequest>>();
-            _validator.Setup(validator => validator.Validate(It.IsAny<GetUserListRequest>()))
-                      .Returns(result);
 
+            _userRepository = new Mock<IUserRepository>();
             _userRepository
-                .Setup(repository => repository.GetList(userDto.Firstname))
+                .Setup(repository => repository.GetList())
                 .Returns(userList);
 
             _mapper = new Mock<IMapper>();
@@ -65,14 +62,15 @@ namespace CBTeam.Test
                 .Setup(m => m.Map<List<UserDto>>(It.IsAny<List<User>>()))
                 .Returns(userDtoList);
 
-            _userRepository = new Mock<IUserRepository>();
-            handler = new GetUserListHandler(_userRepository.Object, _validator.Object, _mapper.Object);
+            handler = new GetUserListHandler(_userRepository.Object, _mapper.Object);
         }
 
         [Fact]
         public async void CuandoObtengoRequestValido_RetornoResponseValido()
         {
-            await handler.Handle(new GetUserListRequest(), CancellationToken.None); 
+            var response = await handler.Handle(new GetUserListRequest(), CancellationToken.None);
+            Assert.NotNull(response);
+            Assert.NotNull(response.UserList);
         }
     }
 }

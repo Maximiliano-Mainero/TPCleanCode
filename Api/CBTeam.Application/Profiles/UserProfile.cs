@@ -14,7 +14,6 @@ namespace CBTeam.Application.Profiles
         public UserProfile()
         {
             CreateMap<User, UserDto>();
-                //.ForMember(x => x.Propiedad, opt => opt.MapFrom(x => x.firstName)); --> Cuando pierde la convención se puede usar esto con autoMapper
         }
     }
 }

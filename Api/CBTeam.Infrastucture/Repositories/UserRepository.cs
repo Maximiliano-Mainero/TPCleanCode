@@ -13,7 +13,16 @@ namespace CBTeam.Infrastructure.Repositories
             _context = context;
         }
 
-        public List<User> GetList(string name)
+        public List<User> GetList()
+        {
+            var userList = _context
+                .Set<User>()
+                .ToList();
+
+            return userList;
+        }
+
+        public List<User> GetListForName(string name)
         {
             var userList = _context
                 .Set<User>()

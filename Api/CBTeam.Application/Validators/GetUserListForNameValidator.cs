@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CBTeam.Application.Validators
 {
-    public class GetUserListValidator : AbstractValidator<GetUserListRequest>
+    public class GetUserListForNameValidator : AbstractValidator<GetUserListForNameRequest>
     {
-        public GetUserListValidator()
+        public GetUserListForNameValidator()
         {
             RuleFor(u => u.name)
                 .Must(BeNonNumeric)
@@ -18,11 +18,11 @@ namespace CBTeam.Application.Validators
 
             RuleFor(u => u.name)
                 .NotEmpty()
-                .WithMessage("Debe ingresar un nombre para la búsqueda");
+                .WithMessage("Debe ingresar un nombre");
 
             RuleFor(u => u.name)
                 .Length(3, 10)
-                .WithMessage("Debe ingresar un nombre que contenga entre 3 y 10 caracteres");          
+                .WithMessage("Debe ingresar un nombre que contenga entre 3 y 10 caracteres");
         }
 
         private bool BeNonNumeric(string value)

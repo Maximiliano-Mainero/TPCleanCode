@@ -21,17 +21,18 @@ namespace CBTeam.API.Controllers
         [Route("")]
         public async Task<IActionResult> GetList([FromQuery] GetUserListRequest request)
         {
-            var response = await _mediator.Send(request); // Llamo al handler donde está toda la lógica de aplicación, el controlador no sabe de donde lo saca, está abstraido a todo eso
-            //var userList = _userRepository.GetList();
+            var response = await _mediator.Send(request); 
             return Ok(response);
 
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public IActionResult Get([FromRoute] int id)
+        [Route("forName")]
+        public async Task<IActionResult> GetListForName([FromQuery] GetUserListForNameRequest request)
         {
-            return Ok();
+            var response = await _mediator.Send(request); 
+            return Ok(response);
+
         }
     }
 }
